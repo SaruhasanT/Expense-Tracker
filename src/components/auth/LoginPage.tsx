@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { auth } from "@/utils/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { addUser } from "@/states/slices/userSlice";
 import {
   FormControl,
@@ -53,6 +53,7 @@ const LoginPage = () => {
           const errorCode = error.code;
           const errorMessage = error.message;
           setLoginError("Invalid Credentials!");
+          console.log(errorCode, errorMessage);
         });
     } catch (err) {
       console.log(err);
