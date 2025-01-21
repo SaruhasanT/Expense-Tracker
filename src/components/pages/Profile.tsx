@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import profile from "../../assets/profile.png";
 import { GiReceiveMoney, GiTakeMyMoney } from "react-icons/gi";
-import { TbDeviceAnalytics, TbTextSize } from "react-icons/tb";
+import { TbDeviceAnalytics } from "react-icons/tb";
 import { IoSettingsOutline } from "react-icons/io5";
 const Profile = ({
   selected,
@@ -12,7 +11,7 @@ const Profile = ({
   setSelected: React.Dispatch<React.SetStateAction<number>>;
   setType: React.Dispatch<React.SetStateAction<string>>;
 }) => {
-  const [tabArray, setTabArray] = useState([
+  const [tabArray] = useState([
     {
       data: "Income",
       el: GiReceiveMoney,

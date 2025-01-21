@@ -51,34 +51,36 @@ const FormSchemaExpense = z.object({
   amount: z
     .string()
     .refine(
-      (value) => !isNaN(value) && value.trim() !== "",
+      (value: any) => !isNaN(value) && value.trim() !== "",
       "Age must be a valid number"
     )
     .transform((value) => parseFloat(value)),
 });
 
 export function EditForm({ type }: { type: string }) {
-  const user: {
-    displayName: string | null;
-    email: string;
-    userId: string;
-  } = useSelector((store: RootState) => store.user);
+  const user:
+    | {
+        displayName: string | null;
+        email: string;
+        uid: string;
+      }
+    | any = useSelector((store: RootState) => store.user);
   const incomeForm = useForm<z.infer<typeof FormSchemaIncome>>({
     resolver: zodResolver(FormSchemaIncome),
     defaultValues: {
       income: "",
       status: "",
-      amount: "",
+      amount: 0,
     },
   });
   const expenseForm = useForm<z.infer<typeof FormSchemaExpense>>({
     resolver: zodResolver(FormSchemaExpense),
     defaultValues: {
       expense: "",
-      amount: "",
+      amount: 0,
     },
   });
-  const form = type === "income" ? incomeForm : expenseForm;
+  const form: any = type === "income" ? incomeForm : expenseForm;
   async function handleSubmitExpense(
     values: z.infer<typeof FormSchemaExpense>
   ) {
@@ -86,7 +88,7 @@ export function EditForm({ type }: { type: string }) {
       const docRef = await addDoc(collection(db, "expenses"), {
         ...values,
         date: JSON.stringify(values.date),
-        uid: user.uid,
+        uid: user?.uid,
         createdAt: serverTimestamp(),
       });
       console.log("Document written with ID: ", docRef.id);
@@ -100,7 +102,7 @@ export function EditForm({ type }: { type: string }) {
       const docRef = await addDoc(collection(db, "incomes"), {
         ...values,
         date: JSON.stringify(values.date),
-        uid: user.uid,
+        uid: user?.uid,
         createdAt: serverTimestamp(),
       });
       console.log("Document written with ID: ", docRef.id);
